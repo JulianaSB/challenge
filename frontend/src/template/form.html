@@ -1,0 +1,58 @@
+<div class="form__fields">
+    <div class="field-group">
+        <div class="field">
+        <label for="garantia">Garantia</label>
+        <select name="garantia" id="garantia" required  onchange="onWarranty()">
+            <option value="veiculo">Veículo</option>
+            <option value="imovel">Imóvel</option>
+        </select>
+        </div>
+        <div class="field">
+        <label for="parcelas">Número de parcelas</label>
+        <select name="parcelas" id="parcelas" required>
+            <option value="24" class="veiculos" style="display: none;">24</option>
+            <option value="36" class="veiculos">36</option>
+            <option value="48" class="veiculos">48</option>
+            <option value="120" class="imoveis" style="display: none;">120</option>
+            <option value="180" class="imoveis" style="display: none;">180</option>
+            <option value="240" class="imoveis" style="display: none;">240</option>
+        </select>
+        </div>                
+    </div>
+    <div class="valor-garantia">
+        <div class="field-group">
+        <div class="field">
+            <label for="valor-garantia">Valor da Garantia</label>
+            <input type="text" required name="valor-garantia" id="valor-garantia" value="14400" onclick="onValorGarantia()"/>
+        </div>
+        <div class="field">
+            <div class="range">
+            <input type="range" name="valor-garantia-range" id="valor-garantia-range" min="0" max="100" value="20" step="10">
+            <div class="range__values">
+                <span>12.000</span>
+                <span>24.000</span>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="emprestimo">
+        <div class="field-group">
+        <div class="field">
+            <label for="valor-emprestimo">Valor do Empréstimo</label>
+            <input type="text" required name="valor-emprestimo" id="valor-emprestimo" value="57000" onclick="onValorGarantia()">
+        </div>
+        <div class="field">
+            <div class="range">
+            <input type="range" name="valor-emprestimo-range" id="valor-emprestimo-range" min="0" max="100" value="90" step="10">
+            <div class="range__values">
+                <span class="veiculos">3.000</span>
+                <span class="veiculos">100.000</span>
+                <span class="imoveis" style="display: none;">30.000</span>
+                <span class="imoveis" style="display: none;">4.500.000</span>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>

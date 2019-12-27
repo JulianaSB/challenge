@@ -10,20 +10,6 @@ export const getFormValues = formElement =>
       value: element.value
     }))
 
-export const toStringFormValues = values => {
-  const match = matchString => value => value.field === matchString
-  const IOF = 6.38 / 100
-  const INTEREST_RATE = 2.34 / 100
-  const TIME = values.find(match('parcelas')).value / 1000
-  const VEHICLE_LOAN_AMOUNT = values.find(match('valor-emprestimo')).value
-
-  return `Confirmação\n${values
-    .map(value => `Campo: ${value.field}, Valor: ${value.value}`)
-    .join('\n')}`.concat(
-      `\nTotal ${(IOF + INTEREST_RATE + TIME + 1) * VEHICLE_LOAN_AMOUNT}`
-    )
-}
-
 export function Send(values) {
   return new Promise((resolve, reject) => {
     try {
@@ -90,3 +76,65 @@ export default class CreditasChallenge {
 document.addEventListener('DOMContentLoaded', function () {
   CreditasChallenge.initialize()
 })
+
+export function onWarranty() {
+  const tipoGarantia = document.getElementById("garantia").value
+  const quantPrazo = document.getElementById("parcelas").value
+  const veiculo = document.querySelectorAll(".veiculos");
+  const imovel = document.querySelectorAll(".imoveis");
+  if(tipoGarantia == 'veiculo') {          
+    for (i = 0; i < 6; i++) {
+      veiculo[i].style.display = "block";
+      imovel[i].style.display = "none";
+    }
+  }else {
+    for (i = 0; i < 6; i++) {
+      veiculo[i].style.display = "none";
+      imovel[i].style.display = "block";
+    }
+  }
+  totalEmprestimo()
+}
+
+export function onValorGarantia(){
+  const valorGarantia = document.getElementById("valor-garantia").value
+  const valorEmprestimo = document.getElementById("valor-emprestimo").value
+  const valorMaxGarantia = (valorGarantia * 80)/100
+
+  if(valorEmprestimo > valorMaxGarantia) {
+    alert('O valor do empréstimo não pode ser maior que 80% da garantia!!')
+  }else {
+    totalEmprestimo();
+  }
+}
+
+export function totalEmprestimo() {
+  const match = matchString => value => value.field === matchString
+  const iof = 6.38 / 100
+  const tipoGarantia = document.getElementById("garantia").value
+  const valorDoEmprestimo = document.getElementById("valor-emprestimo").value
+  const taxaDeJuros = 2.34 / 100
+  const prazo = values.find(match('parcelas')).value / 1000
+  const VEHICLE_LOAN_AMOUNT = values.find(match('valor-emprestimo')).value
+  
+  if(tipoGarantia == 'veiculo') {
+    if(3000 <= valorDoEmprestimo && valorDoEmprestimo <= 100000){
+        const valorTotalAPagar = (iof + taxaDeJuros + prazo + 1) * valorDoEmprestimo;
+        const valorDaParcela = valorTotalAPagar / prazo
+        document.getElementById("valor_total").innerText= 'R$'+ valorTotalAPagar;
+        document.getElementById("valor_prazo").innerText= valorDaParcela;
+        
+    }else {
+      return `Valor do Empréstimo tem que ser entre R$3.000 e R$100.000`
+    }
+  }else {
+    if(30000 <= valorDoEmprestimo && valorDoEmprestimo <= 4500000){
+      const valorTotalAPagar = (iof + taxaDeJuros + prazo + 1) * valorDoEmprestimo;
+      const valorDaParcela = valorTotalAPagar / prazo
+      document.getElementById("valor_total").innerText= 'R$'+ valorTotalAPagar;
+      document.getElementById("valor_prazo").innerText= valorDaParcela;
+    }else {
+      return `Valor do Empréstimo tem que ser entre R$ 30.000 e R$ 4.500.000`
+    }
+  }
+}
